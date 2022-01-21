@@ -3,6 +3,7 @@ import {
   useGetPostIdQuery,
   useGetPostsLimitQuery,
   useGetPostsQuery,
+  useAddPostMutation,
 } from '../../api/jsonPlaceHolder'
 import s from './app.module.scss'
 
@@ -17,6 +18,15 @@ const App: FC = () => {
     isFetching: fetchPosts,
   } = useGetPostsLimitQuery(count)
   const { data: postId, isLoading: loadPost, isFetching: fetchPost } = useGetPostIdQuery(id)
+  const [addPost, { isLoading }] = useAddPostMutation()
+  const handleAddPost = async () => {
+    await addPost({
+      userId: 1,
+      id: 1,
+      title: 'sunt aut facere',
+      body: 'wdfafasfasfdasfasfeasdf',
+    }).unwrap()
+  }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }
