@@ -3,6 +3,7 @@ import {
   useGetPostIdQuery,
   useGetPostsLimitQuery,
   useGetPostsQuery,
+  useDelPostMutation,
   useAddPostMutation,
 } from '../../api/jsonPlaceHolder'
 import s from './app.module.scss'
@@ -18,21 +19,25 @@ const App: FC = () => {
     isFetching: fetchPosts,
   } = useGetPostsLimitQuery(count)
   const { data: postId, isLoading: loadPost, isFetching: fetchPost } = useGetPostIdQuery(id)
-  const [addPost, { isLoading }] = useAddPostMutation()
+  const [addPost, { isError }] = useAddPostMutation()
+  const [delPost, { isLoading }] = useDelPostMutation()
+
   const handleAddPost = async () => {
     await addPost({
-      userId: 1,
-      id: 1,
-      title: 'sunt aut facere',
+      title: value,
       body: 'wdfafasfasfdasfasfeasdf',
     }).unwrap()
+  }
+  const handleDelPost = async (id: number) => {
+    await delPost(id).unwrap()
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setId(value)
+    handleAddPost()
+    setValue('')
   }
   return (
     <div className={s.component}>
@@ -59,7 +64,9 @@ const App: FC = () => {
 
           <div className={s.block}>
             {data.map((post) => (
-              <li key={post.id}>{post.title}</li>
+              <li key={post.id} onClick={() => handleDelPost(post.id)}>
+                {post.title}
+              </li>
             ))}
           </div>
         </>
