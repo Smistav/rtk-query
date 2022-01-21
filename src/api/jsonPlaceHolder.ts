@@ -5,7 +5,10 @@ export const jsonPlaceApi = createApi({
   reducerPath: 'jsonApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com' }),
   endpoints: (builder) => ({
-    getPosts: builder.query<DataProps[], string>({
+    getPosts: builder.query<DataProps[], void>({
+      query: () => `posts`,
+    }),
+    getPostsLimit: builder.query<DataProps[], string>({
       query: (limit = '') => `posts?${limit && `_limit=${limit}`}`,
     }),
     getPostId: builder.query<DataProps, string>({
@@ -13,4 +16,4 @@ export const jsonPlaceApi = createApi({
     }),
   }),
 })
-export const { useGetPostsQuery, useGetPostIdQuery } = jsonPlaceApi
+export const { useGetPostsLimitQuery, useGetPostIdQuery, useGetPostsQuery } = jsonPlaceApi

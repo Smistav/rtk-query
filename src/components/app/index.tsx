@@ -1,12 +1,21 @@
 import React, { FC, useState } from 'react'
-import { useGetPostIdQuery, useGetPostsQuery } from '../../api/jsonPlaceHolder'
+import {
+  useGetPostIdQuery,
+  useGetPostsLimitQuery,
+  useGetPostsQuery,
+} from '../../api/jsonPlaceHolder'
 import s from './app.module.scss'
 
 const App: FC = () => {
   const [count, setCount] = useState('')
   const [id, setId] = useState('')
   const [value, setValue] = useState('')
-  const { data = [], error, isLoading: loadPosts, isFetching: fetchPosts } = useGetPostsQuery(count)
+  const {
+    data = [],
+    error,
+    isLoading: loadPosts,
+    isFetching: fetchPosts,
+  } = useGetPostsLimitQuery(count)
   const { data: postId, isLoading: loadPost, isFetching: fetchPost } = useGetPostIdQuery(id)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
