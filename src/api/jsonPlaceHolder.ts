@@ -29,7 +29,7 @@ export const jsonPlaceApi = createApi({
     getPostId: builder.query<DataProps, string>({
       query: (id = '') => `posts/${id}`,
     }),
-    addPost: builder.mutation({
+    addPost: builder.mutation<DataProps, Partial<DataProps>>({
       query: (body) => ({
         url: 'posts',
         method: 'POST',
@@ -37,7 +37,7 @@ export const jsonPlaceApi = createApi({
       }),
       invalidatesTags: [{ type: 'posts', id: 'LIST' }],
     }),
-    delPost: builder.mutation({
+    delPost: builder.mutation<DataProps, number>({
       query: (id) => ({
         url: `posts/${id}`,
         method: 'DELETE',
